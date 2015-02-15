@@ -1,40 +1,35 @@
 {
   "name": "sstooltip",
-  "main": "sstooltip.min.js",
-  "version": "3.2.0",
+  "main": "dist/sstooltip.js",
+  "version": "4.1.0",
   "homepage": "https://github.com/kristw/sstooltip",
   "authors": [
     "Krist Wongsuphasawat <krist.wongz@gmail.com>"
   ],
-  "description": "simple and stupid tooltip + angular support",
+  "description": "A simple, stupid tooltip, but that's probably exactly what you need",
   "keywords": [
     "sstooltip",
-    "tooltip",
-    "sstooltip-angular"
+    "tooltip"
   ],
-  "license": "Apache 2",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests",
-    "build.sh",
-    "config.rb",
-    "src",
-    "example"
+    "src"
   ],
   "dependencies": {
-    "jquery": ">=1.8.2",
-    "angular": ">=1.2.16"
+    "jquery": ">=1.8.2"
   },
-  "_release": "3.2.0",
+  "_release": "4.1.0",
   "_resolution": {
     "type": "version",
-    "tag": "v3.2.0",
-    "commit": "78bfdf565e314f66356698dec1a7d1bb4186a5e3"
+    "tag": "4.1.0",
+    "commit": "386e630319157c2f629986788eb1f027ecde7c7c"
   },
   "_source": "git://github.com/kristw/sstooltip.git",
-  "_target": "~3.2",
+  "_target": "~4.1",
   "_originalSource": "sstooltip"
 }
