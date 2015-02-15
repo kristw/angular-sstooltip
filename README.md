@@ -4,5 +4,8 @@ AngularJS + [sstooltip](http://github.com/kristw/sstooltip). Allow data binding 
 ## Demo
 http://kristw.github.io/angular-sstooltip/
 
+## Usage
+See [demo](http://kristw.github.io/angular-sstooltip)
+
 ## Development
 To build ```npm run prepublish```
