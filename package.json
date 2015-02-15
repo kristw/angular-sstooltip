@@ -1,6 +1,6 @@
 {
   "name": "angular-sstooltip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AngularJS + sstooltip. Allow data binding and all Angular features in a tooltip",
   "main": "dist/angular-sstooltip.js",
   "directories": {
@@ -11,8 +11,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "npm run copy && npm run uglify",
+    "prepublish": "npm run clean:dist && npm run copy && npm run uglify",
     "copy": "cp src/*.js dist/",
+    "clean:dist": "rm -rf dist",
     "uglify:js": "uglifyjs src/angular-sstooltip.js -c -m -v --stats -o dist/angular-sstooltip.min.js",
     "uglify": "npm run uglify:js"
   },
