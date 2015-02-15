@@ -1,5 +1,8 @@
 # angular-sstooltip
 AngularJS + sstooltip. Allow data binding &amp; all Angular features in a tooltip
 
-### Development
+## Demo
+http://kristw.github.io/angular-sstooltip/
+
+## Development
 To build ```npm run prepublish```
