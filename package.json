@@ -1,0 +1,35 @@
+{
+  "name": "angular-sstooltip",
+  "version": "1.0.0",
+  "description": "AngularJS + sstooltip. Allow data binding and all Angular features in a tooltip",
+  "main": "dist/angular-sstooltip.js",
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {
+    "uglify-js": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run copy && npm run uglify",
+    "copy": "cp src/*.js dist/",
+    "uglify:js": "uglifyjs src/angular-sstooltip.js -c -m -v --stats -o dist/angular-sstooltip.min.js",
+    "uglify": "npm run uglify:js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kristw/angular-sstooltip.git"
+  },
+  "keywords": [
+    "angular-sstooltip",
+    "angular",
+    "sstooltip",
+    "tooltip"
+  ],
+  "author": "Krist Wongsuphasawat <krist.wongz@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kristw/angular-sstooltip/issues"
+  },
+  "homepage": "https://github.com/kristw/angular-sstooltip"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "angular-sstooltip",
+  "main": "dist/angular-sstooltip.min.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/kristw/angular-sstooltip",
+  "authors": [
+    "Krist Wongsuphasawat <krist.wongz@gmail.com>"
+  ],
+  "description": "AngularJS + sstooltip. Allow data binding and all Angular features in a tooltip",
+  "keywords":[
+    "angular-sstooltip",
+    "angular",
+    "sstooltip",
+    "tooltip"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "example"
+  ],
+  "dependencies": {
+    "jquery": ">=1.8.2",
+    "angular": ">=1.2.16",
+    "sstooltip": "~3.2"
+  }
+}
