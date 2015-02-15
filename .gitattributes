@@ -1,2 +1,2 @@
 src/*.js linguist-language=Javascript
-src/*.js linguist-vendored=false
+src linguist-vendored=false
