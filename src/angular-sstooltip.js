@@ -51,6 +51,13 @@ function ($, angular, sstooltip) {
           angular.element(tooltipElement).addClass('sstooltip-'+attrs.tooltipTheme);
         }
 
+        // Hide tooltip on touch (for touch devices)
+        angular.element(tooltipElement).on('touchstart', function(e){
+          tip.hide();
+          e.preventDefault();
+          e.stopPropagation();
+        });
+
         scope.$on('sstooltip:show', function(event, tooltipKey, data){
           if(tooltipKey==scope.tooltipKey){
             safeApply(scope, function(){
