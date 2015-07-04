@@ -1,3 +1,6 @@
+## v3.0.1
+- fix npm dependency
+
 ## v3.0.0
 - replace triggerOnXXX() with watchXXX()
 - support chaining on sstooltipManager
