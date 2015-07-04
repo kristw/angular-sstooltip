@@ -14,7 +14,15 @@ Install via bower
 bower install angular-sstooltip --save
 ```
 
-See [demo](https://kristw.github.io/angular-sstooltip)
+or
+
+```
+npm install angular-sstooltip --save
+```
 
 ## Development
-To build ```npm run prepublish```
+To build
+
+```
+grunt build
+```
