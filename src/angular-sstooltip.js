@@ -58,18 +58,18 @@ function ($, angular, sstooltip) {
           e.stopPropagation();
         });
 
-        scope.$on('sstooltip:show', function(event, tooltipKey, data){
+        scope.$on('sstooltip:show', function(event, tooltipKey, mouseEvent, data){
           if(tooltipKey==scope.tooltipKey){
             safeApply(scope, function(){
-              scope.data = data.data;
+              scope.data = data;
             });
-            tip.show(null, data.mouseEvent);
+            tip.show(null, mouseEvent);
           }
         });
 
-        scope.$on('sstooltip:move', function(event, tooltipKey, data){
+        scope.$on('sstooltip:move', function(event, tooltipKey, mouseEvent){
           if(tooltipKey==scope.tooltipKey){
-            tip.show(null, data.mouseEvent);
+            tip.show(null, mouseEvent);
           }
         });
 
@@ -93,104 +93,78 @@ function ($, angular, sstooltip) {
 
   module.factory('sstooltipManager', [function(){
     return function($scope, tooltipKey){
+      var manager = {};
 
       function show(mouseEvent, data){
-        $scope.$broadcast('sstooltip:show', tooltipKey, {
-          mouseEvent: mouseEvent,
-          data: data
-        });
+        $scope.$broadcast('sstooltip:show', tooltipKey, mouseEvent, data);
+        return manager;
       }
 
-      function move(mouseEvent, data){
-        $scope.$broadcast('sstooltip:move', tooltipKey, {
-          mouseEvent: mouseEvent,
-          data: data
-        });
+      function move(mouseEvent){
+        $scope.$broadcast('sstooltip:move', tooltipKey, mouseEvent);
+        return manager;
       }
 
       function hide(){
         $scope.$broadcast('sstooltip:hide', tooltipKey);
+        return manager;
       }
 
-      function triggerOnScopeEvents(triggerShowEvent, triggerMoveEvent, triggerHideEvent, dataFn, mouseEventFn){
-        var getData = functor(dataFn, function(event, data){return data.data;});
-        var getMouseEvent = functor(mouseEventFn, function(event, data){return data.mouseEvent;});
-
+      function triggerOn(on, showEvent, moveEvent, hideEvent, getData, getMouseEvent){
         // register events that trigger tooltip to show
-        if(triggerShowEvent){
-          $scope.$on(triggerShowEvent, function(){
+        if(showEvent){
+          on(showEvent, function(){
             var args = Array.prototype.slice.call(arguments, 0);
             show(getMouseEvent.apply(this, args), getData.apply(this, args));
           });
         }
         // register events that trigger tooltip to move
-        if(triggerMoveEvent){
-          $scope.$on(triggerMoveEvent, function(){
+        if(moveEvent){
+          on(moveEvent, function(){
             var args = Array.prototype.slice.call(arguments, 0);
-            move(getMouseEvent.apply(this, args), getData.apply(this, args));
+            move(getMouseEvent.apply(this, args));
           });
         }
         // register events that trigger tooltip to hide
-        if(triggerHideEvent){
-          $scope.$on(triggerHideEvent, function(){ hide(); });
+        if(hideEvent){
+          on(hideEvent, function(){ hide(); });
         }
+        return manager;
       }
 
-      function triggerOnDomEvents(dom, triggerShowEvent, triggerMoveEvent, triggerHideEvent, dataFn){
-        var getData = functor(dataFn, function(event){return event.data;});
+      function watchScope(showEvent, moveEvent, hideEvent, dataFn, mouseEventFn){
+        return triggerOn(
+          $scope.$on, showEvent, moveEvent, hideEvent,
+          functor(dataFn, function(event, data){return data.data;}),
+          functor(mouseEventFn, function(event, data){return data.mouseEvent;})
+        );
+      }
 
+      function watchDom(dom, showEvent, moveEvent, hideEvent, dataFn, mouseEventFn){
         var $dom = isFunction(dom.on) ? dom : angular.element(dom);
-
-        // register events that trigger tooltip to show
-        if(triggerShowEvent){
-          $dom.on(triggerShowEvent, function(mouseEvent){
-            var args = Array.prototype.slice.call(arguments, 0);
-            show(mouseEvent, getData.apply(this, args));
-          });
-        }
-        // register events that trigger tooltip to move
-        if(triggerMoveEvent){
-          $dom.on(triggerMoveEvent, function(mouseEvent){
-            var args = Array.prototype.slice.call(arguments, 0);
-            move(mouseEvent, getData.apply(this, args));
-          });
-        }
-        // register events that trigger tooltip to hide
-        if(triggerHideEvent){
-          $dom.on(triggerHideEvent, function(){ hide(); });
-        }
+        return triggerOn(
+          $dom.on, showEvent, moveEvent, hideEvent,
+          functor(dataFn, function(event){return event.data;}),
+          functor(mouseEventFn, function(event){return event;})
+        );
       }
 
-      function triggerOnD3Events(dispatcher, triggerShowEvent, triggerMoveEvent, triggerHideEvent, dataFn){
-        var getData = functor(dataFn, function(d){return d;});
-
-        // register events that trigger tooltip to show
-        if(triggerShowEvent){
-          dispatcher.on(triggerShowEvent, function(){
-            var args = Array.prototype.slice.call(arguments, 0);
-            show(d3.event, getData.apply(this, args));
-          });
-        }
-        // register events that trigger tooltip to move
-        if(triggerMoveEvent){
-          dispatcher.on(triggerMoveEvent, function(){
-            move(d3.event, getData.apply(this, args));
-          });
-        }
-        // register events that trigger tooltip to hide
-        if(triggerHideEvent){
-          dispatcher.on(triggerHideEvent, function(){ hide(); });
-        }
+      function watchD3(dispatcher, showEvent, moveEvent, hideEvent, dataFn, mouseEventFn){
+        return triggerOn(
+          dispatcher.on, showEvent, moveEvent, hideEvent,
+          functor(dataFn, function(d, i){return d;}),
+          functor(mouseEventFn, function(){return d3.event;})
+        );
       }
 
-      return{
-        triggerOnScopeEvents: triggerOnScopeEvents,
-        triggerOnDomEvents: triggerOnDomEvents,
-        triggerOnD3Events: triggerOnD3Events,
-        show: show,
-        move: move,
-        hide: hide
-      };
+      manager.show = show;
+      manager.move = move;
+      manager.hide = hide;
+      manager.watchScope = watchScope;
+      manager.watchDom = watchDom;
+      manager.watchD3 = watchD3;
+
+      return manager;
     };
   }]);
 
