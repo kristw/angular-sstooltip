@@ -1,10 +1,14 @@
 {
   "name": "angular-sstooltip",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "AngularJS + sstooltip. Allow data binding and all Angular features in a tooltip",
   "main": "dist/angular-sstooltip.js",
   "directories": {
     "example": "example"
+  },
+  "dependencies": {
+    "angular": "~1.3",
+    "sstooltip": "~4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
