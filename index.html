@@ -139,10 +139,10 @@
         // (note that we are also using the same tooltip with link3 - tip3)
         tip3.triggerOnScopeEvents(
           'customComponent2:show', 'customComponent2:move', 'customComponent2:hide',
-          function(data){
+          function(event, data){
             return data.dataField;
           },
-          function(data){
+          function(event, data){
             return data.someField;
           }
         );
