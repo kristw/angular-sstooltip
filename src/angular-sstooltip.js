@@ -83,7 +83,7 @@ function ($, angular, sstooltip) {
   // Special version of functor that accepts a default value
   // which will be return when the input value is null
   function functor(v, defaultValue){
-    if(isFunction(fnOrObj)){
+    if(isFunction(v)){
       return v;
     }
     return isFunction(v) ? v : (
@@ -114,7 +114,7 @@ function ($, angular, sstooltip) {
 
       function triggerOnScopeEvents(triggerShowEvent, triggerMoveEvent, triggerHideEvent, dataFn, mouseEventFn){
         var getData = functor(dataFn, function(event, data){return data.data;});
-        var getMouseEvent = functor(dataFn, function(event, data){return data.mouseEvent;});
+        var getMouseEvent = functor(mouseEventFn, function(event, data){return data.mouseEvent;});
 
         // register events that trigger tooltip to show
         if(triggerShowEvent){
@@ -137,7 +137,7 @@ function ($, angular, sstooltip) {
       }
 
       function triggerOnDomEvents(dom, triggerShowEvent, triggerMoveEvent, triggerHideEvent, dataFn){
-        var getData = functor(dataFn, function(event){return d.data;});
+        var getData = functor(dataFn, function(event){return event.data;});
 
         var $dom = isFunction(dom.on) ? dom : angular.element(dom);
 
