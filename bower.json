@@ -1,7 +1,7 @@
 {
   "name": "angular-sstooltip",
   "main": "dist/angular-sstooltip.min.js",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/kristw/angular-sstooltip",
   "authors": [
     "Krist Wongsuphasawat <krist.wongz@gmail.com>"
