@@ -5,15 +5,15 @@
   if (typeof define === 'function' && define.amd) {
     // Support AMD. Register as an anonymous module.
     // EDIT: List all dependencies in AMD style
-    define(['jquery', 'angular', 'sstooltip'], factory);
+    define(['angular', 'sstooltip'], factory);
   } else {
     // No AMD. Set module as a global variable
     // EDIT: Pass dependencies to factory function
-    factory(root.$, root.angular, root.sstooltip);
+    factory(root.angular, root.sstooltip);
   }
 }(this,
 //EDIT: The dependencies are passed to this function
-function ($, angular, sstooltip) {
+function (angular, sstooltip) {
   //---------------------------------------------------
   // BEGIN code for this module
   //---------------------------------------------------
@@ -110,31 +110,31 @@ function ($, angular, sstooltip) {
         return manager;
       }
 
-      function triggerOn(on, showEvent, moveEvent, hideEvent, getData, getMouseEvent){
+      function triggerOn(context, on, showEvent, moveEvent, hideEvent, getData, getMouseEvent){
         // register events that trigger tooltip to show
         if(showEvent){
-          on(showEvent, function(){
+          on.call(context, showEvent, function(){
             var args = Array.prototype.slice.call(arguments, 0);
             show(getMouseEvent.apply(this, args), getData.apply(this, args));
           });
         }
         // register events that trigger tooltip to move
         if(moveEvent){
-          on(moveEvent, function(){
+          on.call(context, moveEvent, function(){
             var args = Array.prototype.slice.call(arguments, 0);
             move(getMouseEvent.apply(this, args));
           });
         }
         // register events that trigger tooltip to hide
         if(hideEvent){
-          on(hideEvent, function(){ hide(); });
+          on.call(context, hideEvent, function(){ hide(); });
         }
         return manager;
       }
 
       function watchScope(showEvent, moveEvent, hideEvent, dataFn, mouseEventFn){
         return triggerOn(
-          $scope.$on, showEvent, moveEvent, hideEvent,
+          $scope, $scope.$on, showEvent, moveEvent, hideEvent,
           functor(dataFn, function(event, data){return data.data;}),
           functor(mouseEventFn, function(event, data){return data.mouseEvent;})
         );
@@ -143,7 +143,7 @@ function ($, angular, sstooltip) {
       function watchDom(dom, showEvent, moveEvent, hideEvent, dataFn, mouseEventFn){
         var $dom = isFunction(dom.on) ? dom : angular.element(dom);
         return triggerOn(
-          $dom.on, showEvent, moveEvent, hideEvent,
+          $dom, $dom.on, showEvent, moveEvent, hideEvent,
           functor(dataFn, function(event){return event.data;}),
           functor(mouseEventFn, function(event){return event;})
         );
@@ -151,7 +151,7 @@ function ($, angular, sstooltip) {
 
       function watchD3(dispatcher, showEvent, moveEvent, hideEvent, dataFn, mouseEventFn){
         return triggerOn(
-          dispatcher.on, showEvent, moveEvent, hideEvent,
+          dispatcher, dispatcher.on, showEvent, moveEvent, hideEvent,
           functor(dataFn, function(d, i){return d;}),
           functor(mouseEventFn, function(){return d3.event;})
         );
